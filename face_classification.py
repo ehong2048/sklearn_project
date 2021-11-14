@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, Perce
 from sklearn.metrics import accuracy_score, plot_confusion_matrix
 from matplotlib import pyplot as plt
 import argparse
+import numpy as np
 import cv2
 
 
@@ -57,8 +58,13 @@ plt.show()
 face_path = args["image"]
 face = cv2.imread(face_path)
 dim = (face_data.images.shape[1], face_data.images.shape[2])
-resized_face = cv2.resize(face, dim, interpolation = cv2.INTER_AREA)
-cv2.imshow(f'Face to classify', resized_face)
+face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+face = cv2.resize(face, dim, interpolation = cv2.INTER_AREA)
+cv2.imshow(f'Face to classify', face)
 cv2.waitKey(0)
 
+face = np.ndarray.flatten(face)
+face = np.expand_dims(face, 0)
+face_pred = classifier.predict(face)
+print(face_data.target_names[face_pred])
 
