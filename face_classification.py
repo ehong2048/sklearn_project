@@ -18,8 +18,11 @@ args = vars(parser.parse_args())
 model = args["model"]
 
 # loads face data and prints information
-face_data = fetch_lfw_people(min_faces_per_person=140, resize = 0.4, color = True) #fetches face data, only keeps people with at least 70 pictures
+# face_data = fetch_lfw_people(data_home="./test-dl", min_faces_per_person=140, resize = 0.4, color = False) #fetches face data, only keeps people with at least 70 pictures
+face_data = fetch_lfw_people(data_home="./test-dl", min_faces_per_person=140, color = False) #fetches face data, only keeps people with at least 70 pictures
 print(face_data.data.shape)
+print(face_data.data[0].shape)
+#cv2.imshow(f'Test face', face_data.images[0])
 num_images = face_data.images.shape[0]
 h = face_data.images.shape[1]
 w = face_data.images.shape[2]
@@ -61,6 +64,7 @@ else:
 # fits and trains model, then gets predication for test set
 classifier.fit(trainX, trainY)
 preds = classifier.predict(testX)
+print(preds)
 print(preds.shape)
 
 # prints accuracy for test set and displays confusion matrix
@@ -72,18 +76,30 @@ plt.show()
 
 # loads face image based on passed in str path
 face_path = args["image"]
-face = cv2.imread(face_path)
-dim = (face_data.images.shape[1], face_data.images.shape[2])
-# face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+face = cv2.imread(face_path, 0)
+#print(face.tolist())
+#cv2.imshow('image', face)
+dim = (face_data.images.shape[2], face_data.images.shape[1])
+#face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 face = cv2.resize(face, dim, interpolation = cv2.INTER_AREA) # resizes to same size as face data
 cv2.imshow(f'Face to classify', face)
 cv2.waitKey(0)
 
 # flattens image to be same as same shape as face data
-face = np.ndarray.flatten(face)
-face = np.expand_dims(face, 0)
 print(face.shape)
-face_pred = classifier.predict(face) # predicts whose face it is
+#face = face.reshape(1850, 3).reshape(1, -1)
+face = np.array(face).flatten('F').reshape(1, -1)
+print(face.shape)
+print(face)
+face_pred = classifier.predict(face)
+# face_pred = classifier.predict(testX[7].reshape(1, -1)) # predicts whose face it is
 print(face_pred)
 print(face_data.target_names[face_pred])
 
+print("====")
+test = testX[4].reshape(1, -1)
+print(test.shape)
+print(test)
+face_pred = classifier.predict(test) # predicts whose face it is
+print(face_pred)
+print(face_data.target_names[face_pred])
