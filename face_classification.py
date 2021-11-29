@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_lfw_people
+from sklearn.externals._pilutil import imread
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, Perceptron, PassiveAggressiveClassifier, SGDClassifier
-from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, plot_confusion_matrix
 from matplotlib import pyplot as plt
 import argparse
@@ -19,9 +19,10 @@ model = args["model"]
 
 # loads face data and prints information
 # face_data = fetch_lfw_people(data_home="./test-dl", min_faces_per_person=140, resize = 0.4, color = False) #fetches face data, only keeps people with at least 70 pictures
-face_data = fetch_lfw_people(data_home="./test-dl", min_faces_per_person=140, color = False) #fetches face data, only keeps people with at least 70 pictures
+face_data = fetch_lfw_people(data_home="./test-dl", min_faces_per_person=140, color = True) #fetches face data, only keeps people with at least 70 pictures
 print(face_data.data.shape)
 print(face_data.data[0].shape)
+print(face_data.data[0])
 #cv2.imshow(f'Test face', face_data.images[0])
 num_images = face_data.images.shape[0]
 h = face_data.images.shape[1]
@@ -31,15 +32,9 @@ print(f'Featured Celebrities: {face_data.target_names}')
 
 trainX, testX, trainY, testY = train_test_split(
     face_data.data, face_data.target, test_size = 0.3, shuffle = False)
+print("Actual identities of test set")
+print(testY)
 
-"""
-n_components = 150
-pca = PCA(n_components=n_components, whiten=True).fit(trainX)
-eigenfaces = pca.components_.reshape((n_components, h, w))
-
-trainX = pca.transform(trainX)
-testX = pca.transform(testX)
-"""
 
 # creates classification model 
 if model == "LogisticRegression":
@@ -64,6 +59,7 @@ else:
 # fits and trains model, then gets predication for test set
 classifier.fit(trainX, trainY)
 preds = classifier.predict(testX)
+print("Predicted identities of test set")
 print(preds)
 print(preds.shape)
 
@@ -76,19 +72,23 @@ plt.show()
 
 # loads face image based on passed in str path
 face_path = args["image"]
-face = cv2.imread(face_path, 0)
-#print(face.tolist())
+img = imread(face_path)
+#slice_ = (slice(0, 250), slice(0, 250))
+slice_ = (slice(70, 195), slice(78, 172))
+face = np.asarray(img[slice_], dtype = np.float32)
+face /= 255.0
+print(face.tolist()[0:1])
 #cv2.imshow('image', face)
 dim = (face_data.images.shape[2], face_data.images.shape[1])
 #face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 face = cv2.resize(face, dim, interpolation = cv2.INTER_AREA) # resizes to same size as face data
-cv2.imshow(f'Face to classify', face)
+cv2.imshow(f'Face to classify', (face/255.0))
 cv2.waitKey(0)
 
 # flattens image to be same as same shape as face data
 print(face.shape)
-#face = face.reshape(1850, 3).reshape(1, -1)
-face = np.array(face).flatten('F').reshape(1, -1)
+#face = face.reshape(1, -1)
+face = np.array(face).flatten().reshape(1, -1)
 print(face.shape)
 print(face)
 face_pred = classifier.predict(face)
@@ -97,9 +97,15 @@ print(face_pred)
 print(face_data.target_names[face_pred])
 
 print("====")
-test = testX[4].reshape(1, -1)
+#test = testX[4].reshape(1, -1)
+test = face_data.data[4].reshape(1, -1)
 print(test.shape)
 print(test)
 face_pred = classifier.predict(test) # predicts whose face it is
 print(face_pred)
 print(face_data.target_names[face_pred])
+cv2.imshow("test", (test/255.0).reshape(62, 47, 3))
+cv2.waitKey(0)
+
+
+print(94-1+2)
