@@ -58,7 +58,7 @@ Perceptron:
 Accuracy = 90.1%, Balanced_Accuracy = 86.7%
 Classification Report:
 
-              |  Prec. | Recall |   F1   |  Supp.
+    Target    |  Prec. | Recall |   F1   |  Supp.
  :----------: | :----: | :----: | :----: | :----:
 Colin Powell  |  0.87  |  0.89  |  0.88  |  65
 George W Bush |  0.91  |  0.95  |  0.93  |  158
