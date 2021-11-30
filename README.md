@@ -55,12 +55,11 @@ Perceptron:
 ***For all of the models, Bush had consistently higher metrics (precision, recall, f1-score) for the most part, which makes sense considering that he had 530 total images in the dataset compared to 236 for Powell and 144 for Blair. This reflects the biases inherent in data. This translates into the real world negatively by ingraining prejudices into the system (ex. IBM Facial Recognition failing to identify darker-skinned women).***
 
 ## SGD Classifier Detailed Metrics
-Accuracy (Average Precision): 0.9010989010989011
-Balanced Accuracy (Average Recall): 0.8672249269717623
+Accuracy = 90.1%, Balanced_Accuracy = 86.7%
 Classification Report:
 
               |  Prec. | Recall |   F1   |  Supp.
-------------- | ------ | ------ | ------ | ------
+ :----------: | :----: | :----: | :----: | :----:
 Colin Powell  |  0.87  |  0.89  |  0.88  |  65
 George W Bush |  0.91  |  0.95  |  0.93  |  158
 Tony Blair    |  0.90  |  0.76  |  0.83  |  50
