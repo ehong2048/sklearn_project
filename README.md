@@ -58,11 +58,11 @@ Perceptron:
 Accuracy = 90.1%, Balanced_Accuracy = 86.7%
 Classification Report:
 
-    Target    |  Prec. | Recall |   F1   |  Supp.
-| :----------: | :----: | :----: | :----: | :----:
-Colin Powell  |  0.87  |  0.89  |  0.88  |  65
-George W Bush |  0.91  |  0.95  |  0.93  |  158
-Tony Blair    |  0.90  |  0.76  |  0.83  |  50
-Accuracy      |        |        |  0.90  |  273
-Macro Avg.    |  0.90  |  0.87  |  0.88  |  273
-Weighted Avg. |  0.90  |  0.90  |  0.90  |  273
+|    Target    |  Prec. | Recall |   F1   |  Supp. |
+| :----------: | :----: | :----: | :----: | :----: |
+|Colin Powell  |  0.87  |  0.89  |  0.88  |  65    | 
+|George W Bush |  0.91  |  0.95  |  0.93  |  158   |
+|Tony Blair    |  0.90  |  0.76  |  0.83  |  50    |
+|Accuracy      |        |        |  0.90  |  273   |
+|Macro Avg.    |  0.90  |  0.87  |  0.88  |  273   |
+|Weighted Avg. |  0.90  |  0.90  |  0.90  |  273   |
