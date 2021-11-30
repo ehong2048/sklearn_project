@@ -73,17 +73,16 @@ plt.show()
 # loads face image based on passed in str path
 face_path = args["image"]
 img = imread(face_path)
-#slice_ = (slice(0, 250), slice(0, 250))
-slice_ = (slice(70, 195), slice(78, 172))
-face = np.asarray(img[slice_], dtype = np.float32)
+cv2.imshow(f'Face to classify', (img))
+cv2.waitKey()
+#slice_ = (slice(70, 195), slice(78, 172))
+#face = np.asarray(img[slice_], dtype = np.float32)
+face = np.asarray(img, dtype = np.float32)
+print(f'face shape: {face.shape}')
 face /= 255.0
 print(face.tolist()[0:1])
-#cv2.imshow('image', face)
 dim = (face_data.images.shape[2], face_data.images.shape[1])
-#face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 face = cv2.resize(face, dim, interpolation = cv2.INTER_AREA) # resizes to same size as face data
-cv2.imshow(f'Face to classify', (face/255.0))
-cv2.waitKey(0)
 
 # flattens image to be same as same shape as face data
 print(face.shape)
@@ -98,7 +97,7 @@ print(face_data.target_names[face_pred])
 
 print("====")
 #test = testX[4].reshape(1, -1)
-test = face_data.data[4].reshape(1, -1)
+test = face_data.data[10].reshape(1, -1)
 print(test.shape)
 print(test)
 face_pred = classifier.predict(test) # predicts whose face it is
